@@ -1,0 +1,25 @@
+USER ?= 
+DB_PASSWORD ?= 
+DB_NAME ?= 
+DB_PORT ?= 
+DB_URL ?= 
+DOCKER_NAME ?= 
+
+
+createdb:
+	docker exec -it $(DOCKER_NAME) createdb --username=$(USER) --owner=root $(DB_NAME)
+
+dropdb:
+	docker exec -it $(DOCKER_NAME) dropdb $(DB_NAME)
+
+migration_up:
+	goose -dir db/migration postgres "postgresql://$(USER):$(DB_PASSWORD)@$(DB_URL):$(DB_PORT)/$(DB_NAME)?sslmode=disable" up
+
+migration_down:
+	goose -dir db/migration postgres "postgresql://$(USER):$(DB_PASSWORD)@$(DB_URL):$(DB_PORT)/$(DB_NAME)?sslmode=disable" down
+
+sqlc:
+	sqlc generate
+
+.PHONY: 
+
