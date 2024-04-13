@@ -27,8 +27,8 @@ func RandomOwner() string {
 	return RandomString(7)
 }
 
-func RandomMoney() int64 {
-	return RandomInt(0, 100000)
+func RandomMoney(from, to int64) int64 {
+	return RandomInt(from, to)
 }
 
 func RandomCurrency() string {

@@ -14,7 +14,7 @@ func TestCreateEntry(t *testing.T) {
 
 	arg := CreateEntryParams{
 		AccountID: account.ID,
-		Amount:    util.RandomMoney(),
+		Amount:    util.RandomMoney(0, 10000),
 	}
 
 	entry, error := testQueries.CreateEntry(context.Background(), arg)
@@ -33,7 +33,7 @@ func createRandomEntry(t *testing.T) Entry {
 
 	arg := CreateEntryParams{
 		AccountID: account.ID,
-		Amount:    util.RandomMoney(),
+		Amount:    util.RandomMoney(0, 10000),
 	}
 
 	entry, error := testQueries.CreateEntry(context.Background(), arg)
@@ -59,13 +59,14 @@ func TestGetEntry(t *testing.T) {
 	require.Equal(t, entry1.ID, entry2.ID)
 	require.Equal(t, entry1.AccountID, entry2.AccountID)
 	require.Equal(t, entry1.Amount, entry2.Amount)
+	
 	require.WithinDuration(t, entry1.CreatedAt.Time, entry2.CreatedAt.Time, time.Second)
 }
 
 func createEntryByID(t *testing.T, accountID int64) {
 	arg := CreateEntryParams{
 		AccountID: accountID,
-		Amount:    util.RandomMoney(),
+		Amount:    util.RandomMoney(0, 10000),
 	}
 
 	entry, error := testQueries.CreateEntry(context.Background(), arg)
