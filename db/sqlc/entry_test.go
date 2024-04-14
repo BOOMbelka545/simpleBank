@@ -9,28 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCreateEntry(t *testing.T) {
-	account := createRandomAccount(t)
-
-	arg := CreateEntryParams{
-		AccountID: account.ID,
-		Amount:    util.RandomMoney(0, 10000),
-	}
-
-	entry, error := testQueries.CreateEntry(context.Background(), arg)
-	require.NoError(t, error)
-	require.NotEmpty(t, entry)
-
-	require.Equal(t, arg.AccountID, entry.AccountID)
-	require.Equal(t, arg.Amount, entry.Amount)
-
-	require.NotZero(t, entry.ID)
-	require.NotZero(t, entry.CreatedAt)
-}
-
-func createRandomEntry(t *testing.T) Entry {
-	account := createRandomAccount(t)
-
+func createRandomEntry(t *testing.T, account Account) Entry {
 	arg := CreateEntryParams{
 		AccountID: account.ID,
 		Amount:    util.RandomMoney(0, 10000),
@@ -49,8 +28,14 @@ func createRandomEntry(t *testing.T) Entry {
 	return entry
 }
 
+func TestCreateEntry(t *testing.T) {
+	account := createRandomAccount(t)
+	createRandomEntry(t, account)
+}
+
 func TestGetEntry(t *testing.T) {
-	entry1 := createRandomEntry(t)
+	account := createRandomAccount(t)
+	entry1 := createRandomEntry(t, account)
 
 	entry2, error := testQueries.GetEntry(context.Background(), entry1.ID)
 	require.NoError(t, error)
@@ -63,28 +48,13 @@ func TestGetEntry(t *testing.T) {
 	require.WithinDuration(t, entry1.CreatedAt.Time, entry2.CreatedAt.Time, time.Second)
 }
 
-func createEntryByID(t *testing.T, accountID int64) {
-	arg := CreateEntryParams{
-		AccountID: accountID,
-		Amount:    util.RandomMoney(0, 10000),
-	}
 
-	entry, error := testQueries.CreateEntry(context.Background(), arg)
-	require.NoError(t, error)
-	require.NotEmpty(t, entry)
-
-	require.Equal(t, arg.AccountID, entry.AccountID)
-	require.Equal(t, arg.Amount, entry.Amount)
-
-	require.NotZero(t, entry.ID)
-	require.NotZero(t, entry.CreatedAt)
-}
 
 func TestListEntries(t *testing.T) {
 	account := createRandomAccount(t)
 
 	for i := 0; i < 10; i++ {
-		createEntryByID(t, account.ID)
+		createRandomEntry(t, account)
 	}
 
 	arg := ListEntriesParams{

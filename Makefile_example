@@ -21,5 +21,10 @@ migration_down:
 sqlc:
 	sqlc generate
 
-.PHONY: 
+test:
+	go test -v -cover ./...
 
+conn_db:
+	psql -U $(USER) -h $(DB_URL) -p $(DB_PORT) -d $(DB_NAME)
+
+.PHONY: createdb dropdb migration_up migration_down sqlc test conn_db
