@@ -8,13 +8,13 @@ import (
 )
 
 func TestTransferTx(t *testing.T) {
-	testStore := NewStore(testDB)
+	testStore := NewStore(testTX)
 
 	account1 := createRandomAccount(t)
 	account2 := createRandomAccount(t)
 
 	n := 5
-	amount := int64(11)
+	amount := int64(10)
 
 	errs := make(chan error)
 	results := make(chan TransferTxResult)
