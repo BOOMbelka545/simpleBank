@@ -11,14 +11,17 @@ import (
 )
 
 var testQueries *Queries
+var testDB *pgx.Conn
 
 func TestMain(m *testing.M) {
-	conn, err := pgx.Connect(context.Background(), config.DbSource)
+	var err error
+
+	testDB, err = pgx.Connect(context.Background(), config.DbSource)
 	if err != nil {
 		log.Fatal("Cannot connect to db:", err)
 	}
 
-	testQueries = New(conn)
+	testQueries = New(testDB)
 
 	os.Exit(m.Run())
 }
