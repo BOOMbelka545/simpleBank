@@ -1,10 +1,9 @@
-USER ?= 
-DB_PASSWORD ?= 
-DB_NAME ?= 
-DB_PORT ?= 
-DB_URL ?= 
-DOCKER_NAME ?= 
-
+USER = root
+DB_PASSWORD = secret
+DB_NAME = simple_bank
+DB_PORT = 5432
+DB_URL = localhost
+DOCKER_NAME = simplebank-postgres-1
 
 createdb:
 	docker exec -it $(DOCKER_NAME) createdb --username=$(USER) --owner=root $(DB_NAME)
@@ -26,5 +25,7 @@ test:
 
 conn_db:
 	psql -U $(USER) -h $(DB_URL) -p $(DB_PORT) -d $(DB_NAME)
-
+	
 .PHONY: createdb dropdb migration_up migration_down sqlc test conn_db
+
+# -verbose up
