@@ -13,7 +13,7 @@ func TestTransferTx(t *testing.T) {
 
 	account1 := createRandomAccount(t)
 	account2 := createRandomAccount(t)
-	fmt.Println("before>> ", account1.Balance, account2.Balance)
+	fmt.Println(">> before: ", account1.Balance, account2.Balance)
 
 	n := 5
 	amount := int64(10)
@@ -107,7 +107,7 @@ func TestTransferTx(t *testing.T) {
 	updatedAccount2, err := testStore.GetAccount(context.Background(), account2.ID)
 	require.NoError(t, err)
 
-	fmt.Println("after>> ", updatedAccount1.Balance, updatedAccount2.Balance)
+	fmt.Println(">> tx:", updatedAccount1.Balance, updatedAccount2.Balance)
 	require.Equal(t, account1.Balance - int64(n)*amount, updatedAccount1.Balance)
 	require.Equal(t, account2.Balance + int64(n)*amount, updatedAccount2.Balance)
 

@@ -49,8 +49,8 @@ ALTER TABLE "transfers" ADD FOREIGN KEY ("to_account_id") REFERENCES "accounts" 
 -- +goose Down
 -- +goose StatementBegin
 SELECT 'down SQL query';
-DROP TABLE IF EXISTS accounts;
-DROP TABLE IF EXISTS entries:
-DROP TABLE IF EXISTS transfers:
+DROP TABLE IF EXISTS accounts CASCADE;
+DROP TABLE IF EXISTS entries;
+DROP TABLE IF EXISTS transfers;
 
 -- +goose StatementEnd
