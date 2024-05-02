@@ -25,7 +25,10 @@ test:
 
 conn_db:
 	psql -U $(USER) -h $(DB_URL) -p $(DB_PORT) -d $(DB_NAME)
+
+server:
+	go run main.go
 	
-.PHONY: createdb dropdb migration_up migration_down sqlc test conn_db
+.PHONY: createdb dropdb migration_up migration_down sqlc test conn_db server
 
 # -verbose up
