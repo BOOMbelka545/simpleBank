@@ -3,8 +3,11 @@ sql:
   - engine: "postgresql"
     queries: "./db/queries/"
     schema: "./db/migration/"
+    
     gen:
       go:
+        emit_empty_slices: true
         package: "db"
         out: "./db/sqlc"
         sql_package: "pgx/v5"
+        
